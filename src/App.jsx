@@ -385,7 +385,7 @@ function HeroSection({ setActive }) {
           {[
             ["33+", "Projects Delivered"],
             ["4+", "Years Experience"],
-            ["5.4 LPA", "Current CTC"],
+           ["AI + APIs", "Automation Focus"],
             ["AWS + GoDaddy", "Hosting Experience"],
           ].map(([n, l]) => (
             <div key={l} className="stat-card">
