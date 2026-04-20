@@ -3,10 +3,16 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
+  if (!process.env.GEMINI_API_KEY) {
+    return res.status(500).json({
+      error: "Server configuration error: GEMINI_API_KEY is missing",
+    });
+  }
+
   try {
     const { prompt } = req.body || {};
 
-    if (!prompt) {
+    if (!prompt || !prompt.trim()) {
       return res.status(400).json({ error: "Prompt is required" });
     }
 
@@ -24,6 +30,11 @@ export default async function handler(req, res) {
               parts: [{ text: prompt }],
             },
           ],
+          generationConfig: {
+            temperature: 0.7,
+            topP: 0.95,
+            maxOutputTokens: 1024,
+          },
         }),
       }
     );
@@ -33,7 +44,6 @@ export default async function handler(req, res) {
     if (!response.ok) {
       return res.status(response.status).json({
         error: data?.error?.message || "Gemini API request failed",
-        details: data,
       });
     }
 
@@ -45,7 +55,7 @@ export default async function handler(req, res) {
   } catch (error) {
     return res.status(500).json({
       error: "Server error",
-      message: error.message,
+      message: error.message || "Unexpected server error",
     });
   }
 }

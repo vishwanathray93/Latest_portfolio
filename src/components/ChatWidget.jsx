@@ -155,13 +155,21 @@ function getFriendlyErrorMessage(error) {
   }
 
   if (
-    raw.includes("api key not valid") ||
+    raw.includes("api key") ||
     raw.includes("permission denied") ||
     raw.includes("unauthorized") ||
     raw.includes("401") ||
     raw.includes("403")
   ) {
     return "The assistant is currently unavailable because of a configuration issue. Please try again later.";
+  }
+
+  if (
+    raw.includes("prompt is required") ||
+    raw.includes("400") ||
+    raw.includes("bad request")
+  ) {
+    return "The request could not be processed right now. Please try again.";
   }
 
   if (
@@ -231,40 +239,23 @@ ${apiMessages
   .join("\n")}
 `;
 
-      const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${import.meta.env.VITE_GEMINI_API_KEY}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            contents: [
-              {
-                parts: [{ text: geminiPrompt }],
-              },
-            ],
-          }),
-        }
-      );
-
-      if (!response.ok) {
-        let errMessage = `API error ${response.status}`;
-
-        try {
-          const err = await response.json();
-          errMessage = err?.error?.message || errMessage;
-        } catch {
-          // ignore JSON parse failure
-        }
-
-        throw new Error(errMessage);
-      }
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          prompt: geminiPrompt,
+        }),
+      });
 
       const data = await response.json();
-      const reply =
-        data?.candidates?.[0]?.content?.parts?.[0]?.text ||
-        "Sorry, I couldn't generate a response right now.";
+
+      if (!response.ok) {
+        throw new Error(data?.error || `API error ${response.status}`);
+      }
+
+      const reply = data?.text || "Sorry, I couldn't generate a response right now.";
 
       setMessages((prev) => [...prev, { role: "assistant", content: reply }]);
     } catch (error) {
