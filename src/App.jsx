@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import "./index.css";
 import Navbar from "./components/Navbar";
 import ChatWidget from "./components/ChatWidget";
-
+import ScrollButtons from "./components/ScrollButtons";
 const RESUME_CONTEXT = `
-You are an AI assistant for Vishwanath Ray's portfolio website. Answer ONLY questions about Vishwanath Ray. Here is everything about him:
+You are an AI assistant for Vishwanath Ray's portfolio website.
+Answer ONLY questions about Vishwanath Ray in a friendly, professional, and structured style.
 
 NAME: Vishwanath Ray
 EMAIL: rayvishu93@gmail.com
@@ -14,15 +15,22 @@ LinkedIn: https://in.linkedin.com/in/vishwanath-ray-594660230
 Portfolio: https://vishwanathportfolio.free.nf/
 
 PROFESSIONAL SUMMARY:
-Backend-focused Web Developer with 4+ years of experience building scalable web applications using PHP, Laravel, WordPress, Shopify, and BigCommerce. Experienced in REST API integrations, database optimization, ecommerce development, and automation systems. Skilled in developing custom plugins, themes, and backend systems while improving website performance, scalability, and SEO.
+Backend-focused Web Developer with 4+ years of experience building scalable web applications using PHP, Laravel, WordPress, Shopify, BigCommerce, and WooCommerce. Experienced in REST API integrations, ecommerce development, database optimization, deployment, automation systems, and hosting support. Skilled in custom themes, plugins, backend systems, storefront customization, and performance optimization.
+
+CURRENT CTC:
+5.4 Lac per annum
+
+EXPECTED CTC:
+6 to 6.5 Lac per annum
 
 SKILLS:
 - Front-End: HTML5, CSS3, JavaScript (ES6+), jQuery, Bootstrap, React.js
 - Back-End: PHP, Laravel, MySQL, PostgreSQL, Node.js (Basic)
-- CMS/Platforms: WordPress, Shopify, BigCommerce
+- CMS/Platforms: WordPress, Shopify, BigCommerce, WooCommerce
 - Shopify Development: Liquid, Storefront API, Shopify App Development (Remix.js), Klaviyo, Theme Customization
+- WordPress / WooCommerce: Theme Customization, Plugin Integration, Product/Checkout Customization, Payment/Shipping Integration
 - Version Control: Git (GitHub, GitLab)
-- DevOps / Deployment: AWS EC2, Linux Server, Git Deployment, SSL, DNS Configuration
+- DevOps / Deployment: AWS EC2, Linux Server, Git Deployment, SSL, DNS Configuration, GoDaddy Hosting, cPanel
 - AI & Automation: N8n Workflow Automation, OpenAI API Integration, WhatsApp Business API, Webhook Architecture
 - Other: SEO Optimization, Cross-Browser Compatibility, Database Optimization, REST API Integration
 
@@ -34,20 +42,37 @@ EXPERIENCE:
 EDUCATION:
 Himachal Pradesh Technical University | Bachelor of Technology – Computer Science and Engineering | Aug 2018 – Sep 2022 | CGPA: 7.0
 
-PROJECTS:
-- Stock Sense App
-- Digitalroot
-- Bcloud.ai
-- Kcloudhubs
-- Bart Part
-- Venue Marketplace
-- Venue Outlet
-- Everything4TheLow
-- PinkNoire
-- Crown Naturale
+HOSTING / DEPLOYMENT EXPERIENCE:
+- Worked on AWS EC2 deployment
+- Managed Linux server related tasks
+- Configured SSL and DNS
+- Worked with GoDaddy hosting and domain setup
+- Handled cPanel/file manager/basic hosting operations for website deployment and maintenance
+
+PROJECTS WITH LINKS:
+- https://venuemarketplace.com/  (BigCommerce)
+- https://venueoutlet.mybigcommerce.com/  (BigCommerce)
+- https://everything4thelow.com/  (BigCommerce)
+- https://pinknoire.com/  (Shopify)
+- https://crownnaturale.com/  (Shopify)
+- https://bcloud.ai/  (WordPress)
+- https://kcloudhubs.com/  (WordPress)
+- https://pcloudhostings.com/  (WordPress)
+- https://digitalrt.com/  (WordPress)
+- https://bartsparts.com/  (WordPress)
+- http://globalultrasoundinstitute.com/  (WordPress / WooCommerce related work)
+- Stock Sense App (Shopify App)
 - GUSI LMS System
 
-Only answer questions about Vishwanath Ray. If asked about anything else, politely redirect to his work and skills.
+IMPORTANT RESPONSE RULES:
+- Answer only about Vishwanath Ray
+- Be friendly, confident, and concise
+- Use headings and bullets when needed
+- For CTC questions, clearly show both current and expected
+- If asked for project links, provide the links above with short summaries
+- If asked about hosting experience, mention AWS EC2 and GoDaddy
+- If asked about ecommerce, include Shopify, BigCommerce, WordPress, and WooCommerce where relevant
+- If asked about anything unrelated, politely redirect back to Vishwanath's profile
 `;
 
 const NAV_LINKS = [
@@ -73,19 +98,43 @@ const SKILLS_DATA = [
   },
   {
     cat: "CMS / Platforms",
-    items: ["WordPress", "Shopify", "BigCommerce"],
+    items: ["WordPress", "Shopify", "BigCommerce", "WooCommerce"],
   },
   {
     cat: "Shopify",
     items: ["Remix.js", "Liquid", "Storefront API", "Klaviyo", "Theme Development"],
   },
   {
+    cat: "WordPress / WooCommerce",
+    items: [
+      "Theme Customization",
+      "Plugin Integration",
+      "WooCommerce Setup",
+      "Checkout Customization",
+      "Payment / Shipping Integration",
+    ],
+  },
+  {
     cat: "DevOps / Deployment",
-    items: ["AWS EC2", "Linux Server", "Git Deployment", "SSL", "DNS Configuration"],
+    items: [
+      "AWS EC2",
+      "Linux Server",
+      "Git Deployment",
+      "SSL",
+      "DNS Configuration",
+      "GoDaddy Hosting",
+      "cPanel",
+    ],
   },
   {
     cat: "Other",
-    items: ["SEO", "Cross-Browser Compatibility", "Database Optimization", "N8n", "OpenAI API"],
+    items: [
+      "SEO",
+      "Cross-Browser Compatibility",
+      "Database Optimization",
+      "N8n",
+      "OpenAI API",
+    ],
   },
 ];
 
@@ -109,6 +158,7 @@ const PROJECTS = [
       "Useful for merchant decision-making",
       "Strong portfolio project in Shopify app ecosystem",
     ],
+    links: [],
   },
   {
     title: "Venue Marketplace / Venue Outlet / Everything4TheLow",
@@ -117,37 +167,49 @@ const PROJECTS = [
     color: "#7c4dff",
     tags: ["BigCommerce", "Stencil", "Storefront API", "AWS"],
     summary:
-      "Built and customized BigCommerce storefront features, integrated transactional templates and dynamic PDP behavior, and managed deployment on AWS.",
+      "Built and customized BigCommerce storefront features, integrated transactional templates, worked on dynamic PDP behavior, and supported hosting/deployment workflows.",
     contribution: [
       "Developed BigCommerce storefront features using Stencil",
       "Implemented dynamic PDP behavior and contextual UI sections",
       "Worked with Storefront API for product and order data",
-      "Managed AWS deployment and hosting-side reliability",
+      "Supported AWS deployment and hosting-side reliability",
     ],
     impact: [
       "Improved storefront functionality",
       "Enabled more dynamic frontend experiences",
-      "Delivered stable hosted solution for ecommerce workflows",
+      "Delivered stable hosted ecommerce workflows",
+    ],
+    links: [
+      "https://venuemarketplace.com/",
+      "https://venueoutlet.mybigcommerce.com/",
+      "https://everything4thelow.com/",
     ],
   },
   {
-    title: "Digitalroot / Bcloud.ai / Kcloudhubs / Bart Part",
+    title: "Digitalroot / Bcloud.ai / Kcloudhubs / Pcloud Hostings / Bartsparts",
     category: "WordPress Development",
     icon: "🌐",
     color: "#ff4081",
-    tags: ["WordPress", "PHP", "SEO", "Mailchimp"],
+    tags: ["WordPress", "PHP", "SEO", "GoDaddy"],
     summary:
       "Developed and customized responsive WordPress business websites with theme setup, plugin integration, deployment support, SEO optimization, and performance improvements.",
     contribution: [
       "Built and customized WordPress themes and templates",
       "Integrated custom PHP-based functionality and plugins",
       "Worked on page speed, SEO, and deployment setup",
-      "Implemented Mailchimp/contact related flows where required",
+      "Handled GoDaddy hosting, domain mapping, SSL, and live deployment support",
     ],
     impact: [
       "Improved performance and loading speed",
       "Delivered production-ready business sites",
       "Enhanced SEO readiness and user experience",
+    ],
+    links: [
+      "https://bcloud.ai/",
+      "https://kcloudhubs.com/",
+      "https://pcloudhostings.com/",
+      "https://digitalrt.com/",
+      "https://bartsparts.com/",
     ],
   },
   {
@@ -169,26 +231,29 @@ const PROJECTS = [
       "Improved email marketing integration",
       "Conversion-supportive front-end enhancements",
     ],
+    links: ["https://pinknoire.com/", "https://crownnaturale.com/"],
   },
   {
-    title: "GUSI LMS System",
-    category: "WordPress + PHP + MySQL",
+    title: "GUSI LMS System / Global Ultrasound Institute",
+    category: "WordPress + PHP + MySQL + WooCommerce",
     icon: "📚",
     color: "#69ff47",
-    tags: ["PHP", "MySQL", "LMS", "WordPress"],
+    tags: ["PHP", "MySQL", "LMS", "WordPress", "WooCommerce"],
     summary:
-      "Developed an LMS platform using PHP and MySQL with course management, exams, enrollments, role-based access, filtering, and secure user flows.",
+      "Worked on LMS-related and WordPress-based functionality for Global Ultrasound Institute, including backend features, database optimization, and ecommerce/course-related flows.",
     contribution: [
       "Built LMS-related backend functionality",
       "Enhanced exam listing and filtering experience",
       "Designed optimized SQL queries for reporting and retrieval",
-      "Worked on authentication, roles, and region-specific access control",
+      "Worked on authentication, roles, and structured content/course flows",
+      "Handled WordPress / WooCommerce related customization where required",
     ],
     impact: [
-      "Helped support scalable learning platform requirements",
+      "Supported scalable learning platform requirements",
       "Improved performance with optimized database queries",
       "Delivered secure and structured LMS functionality",
     ],
+    links: ["http://globalultrasoundinstitute.com/"],
   },
 ];
 
@@ -196,7 +261,7 @@ const ACHIEVEMENTS = [
   { number: "33+", label: "Projects Delivered" },
   { number: "4+", label: "Years of Experience" },
   { number: "~40%", label: "Automation Effort Reduced" },
-  { number: "AWS", label: "Deployment Experience" },
+  { number: "AWS + GoDaddy", label: "Hosting Experience" },
   { number: "20%", label: "SEO Growth Contribution" },
 ];
 
@@ -205,9 +270,9 @@ const INTERESTS = [
   "Backend architecture",
   "AI workflow automation",
   "Ecommerce systems",
+  "WooCommerce customization",
   "API integrations",
   "Database optimization",
-  "Performance tuning",
   "Production deployment",
 ];
 
@@ -233,7 +298,7 @@ function HeroSection({ setActive }) {
   const roles = [
     "Backend Web Developer",
     "Shopify App Builder",
-    "WordPress & BigCommerce Developer",
+    "WordPress, BigCommerce & WooCommerce Developer",
     "AI Automation Integrator",
   ];
 
@@ -289,9 +354,9 @@ function HeroSection({ setActive }) {
 
         <p className="hero-description">
           Backend-focused Web Developer with 4+ years of experience building scalable web
-          applications using PHP, Laravel, WordPress, Shopify, and BigCommerce.
-          Experienced in REST API integrations, database optimization, ecommerce
-          development, and automation systems.
+          applications using PHP, Laravel, WordPress, Shopify, BigCommerce, and
+          WooCommerce. Experienced in REST API integrations, database optimization,
+          ecommerce development, hosting support, and automation systems.
         </p>
 
         <div className="hero-actions">
@@ -320,8 +385,8 @@ function HeroSection({ setActive }) {
           {[
             ["33+", "Projects Delivered"],
             ["4+", "Years Experience"],
-            ["~40%", "Automation Savings"],
-            ["AWS", "Deployment Experience"],
+            ["5.4 LPA", "Current CTC"],
+            ["AWS + GoDaddy", "Hosting Experience"],
           ].map(([n, l]) => (
             <div key={l} className="stat-card">
               <div className="stat-number">{n}</div>
@@ -353,14 +418,13 @@ function AboutSection() {
           <p className="muted-text">
             I work across backend development, ecommerce customization, API integrations,
             automation workflows, and deployment support. My experience includes
-            WordPress development, Shopify theme and app work, BigCommerce storefront
-            customization, and database-driven PHP/Laravel applications.
+            WordPress development, WooCommerce customization, Shopify theme and app work,
+            BigCommerce storefront customization, and database-driven PHP/Laravel applications.
           </p>
 
           <p className="muted-text about-gap">
-            I enjoy building systems that are practical, scalable, and business-focused —
-            whether it is a client website, an ecommerce customization, an admin
-            workflow, or an automation pipeline.
+            I enjoy building practical, scalable, and business-focused systems — whether it
+            is a client website, ecommerce customization, admin workflow, or automation pipeline.
           </p>
 
           <div className="info-grid">
@@ -414,9 +478,10 @@ function ExperienceSection() {
       location: "Noida, India",
       color: "#00e5ff",
       points: [
-        "Delivered projects across WordPress, Shopify, BigCommerce, and custom Shopify app development.",
+        "Delivered projects across WordPress, Shopify, BigCommerce, WooCommerce, and custom Shopify app development.",
         "Worked on speed optimization, SEO enhancements, and deployment-related configurations.",
         "Managed AWS EC2 deployment, SSL setup, DNS configuration, and Linux server tasks.",
+        "Worked with hosting environments including GoDaddy for website/domain support and maintenance.",
         "Architected N8n workflows integrating OpenAI API and WhatsApp Business API.",
       ],
     },
@@ -428,9 +493,9 @@ function ExperienceSection() {
       color: "#7c4dff",
       points: [
         "Built scalable backend applications using PHP, Laravel, MySQL, and REST APIs.",
-        "Converted Figma designs into fully functional websites across WordPress, Shopify, and BigCommerce.",
-        "Delivered 22+ client projects including WordPress plugins, Shopify themes, and BigCommerce storefronts.",
-        "Collaborated on SEO and performance-related improvements.",
+        "Converted Figma designs into fully functional websites across WordPress, Shopify, BigCommerce, and WooCommerce.",
+        "Delivered multiple client projects including WordPress plugins, Shopify themes, BigCommerce storefronts, and ecommerce customizations.",
+        "Collaborated on SEO, performance, and production deployment improvements.",
       ],
     },
     {
@@ -555,6 +620,27 @@ function ProjectsSection() {
                 </span>
               ))}
             </div>
+
+            {!!current.links?.length && (
+              <div className="project-links-row">
+                {current.links.map((link) => (
+                  <a
+                    key={link}
+                    href={link}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="project-live-link"
+                    style={{
+                      color: current.color,
+                      borderColor: `${current.color}45`,
+                      background: `${current.color}12`,
+                    }}
+                  >
+                    🔗 Live
+                  </a>
+                ))}
+              </div>
+            )}
           </div>
 
           <div className="project-nav">
@@ -725,19 +811,19 @@ function Footer() {
   return (
     <footer className="footer">
       <div className="footer-copy">
-        © 2025 <span className="text-accent">Vishwanath Ray</span>
+        © 2025 <span className="text-accent">Vishwanath Ray</span>. All rights reserved.
       </div>
 
       <div className="footer-links">
-        {[
-          ["GitHub", "https://github.com/vishwanathray93"],
-          ["LinkedIn", "https://in.linkedin.com/in/vishwanath-ray-594660230"],
-          ["Portfolio", "https://vishwanathportfolio.free.nf/"],
-        ].map(([l, h]) => (
-          <a key={l} href={h} target="_blank" rel="noreferrer" className="footer-link">
-            {l}
-          </a>
-        ))}
+        <a className="footer-link" href="https://github.com/vishwanathray93" target="_blank" rel="noreferrer">
+          GitHub
+        </a>
+        <a className="footer-link" href="https://in.linkedin.com/in/vishwanath-ray-594660230" target="_blank" rel="noreferrer">
+          LinkedIn
+        </a>
+        <a className="footer-link" href="mailto:rayvishu93@gmail.com">
+          Email
+        </a>
       </div>
     </footer>
   );
@@ -747,28 +833,29 @@ export default function App() {
   const [active, setActive] = useState("Home");
 
   useEffect(() => {
-    const obs = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => {
-          if (e.isIntersecting) {
-            setActive(e.target.id.charAt(0).toUpperCase() + e.target.id.slice(1));
-          }
-        });
-      },
-      { threshold: 0.35 }
-    );
+    const handleScroll = () => {
+      const ids = NAV_LINKS.map((item) => item.toLowerCase());
+      const scrollY = window.scrollY + 120;
 
-    NAV_LINKS.forEach((n) => {
-      const el = document.getElementById(n.toLowerCase());
-      if (el) obs.observe(el);
-    });
+      for (let i = ids.length - 1; i >= 0; i--) {
+        const el = document.getElementById(ids[i]);
+        if (el && el.offsetTop <= scrollY) {
+          setActive(NAV_LINKS[i]);
+          break;
+        }
+      }
+    };
 
-    return () => obs.disconnect();
+    window.addEventListener("scroll", handleScroll);
+    handleScroll();
+
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
     <div className="app-shell">
       <Navbar active={active} setActive={setActive} />
+
       <div className="breadcrumb">{active}</div>
 
       <HeroSection setActive={setActive} />
@@ -781,6 +868,7 @@ export default function App() {
       <InterestsSection />
       <ContactSection />
       <Footer />
+      <ScrollButtons />
       <ChatWidget resumeContext={RESUME_CONTEXT} />
     </div>
   );

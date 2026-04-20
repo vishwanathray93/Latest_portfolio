@@ -162,7 +162,6 @@ a {
   transform: translateY(-7px) rotate(-45deg);
 }
 
-/* breadcrumb */
 .breadcrumb {
   position: fixed;
   top: 72px;
@@ -179,7 +178,6 @@ a {
   text-transform: uppercase;
 }
 
-/* hero */
 .hero-section {
   min-height: 100vh;
   width: 100%;
@@ -297,7 +295,6 @@ a {
   font-weight: 700;
 }
 
-/* cards and common */
 .stats-grid,
 .skills-grid,
 .achievement-grid,
@@ -347,7 +344,6 @@ a {
   margin-top: 8px;
 }
 
-/* section header */
 .section-header {
   text-align: center;
 }
@@ -373,10 +369,9 @@ a {
   height: 3px;
   background: linear-gradient(90deg, #00e5ff, #7c4dff);
   border-radius: 2px;
-  margin: "16px auto 0";
+  margin: 16px auto 0;
 }
 
-/* about */
 .about-grid {
   display: grid;
   grid-template-columns: 1fr 1.35fr;
@@ -463,7 +458,6 @@ a {
   font-size: 14px;
 }
 
-/* skills */
 .skills-grid {
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   margin-top: 60px;
@@ -499,7 +493,6 @@ a {
   font-size: 12px;
 }
 
-/* timeline */
 .timeline-wrap {
   margin-top: 60px;
   position: relative;
@@ -580,7 +573,6 @@ a {
   margin-bottom: 8px;
 }
 
-/* education */
 .education-card {
   margin-top: 60px;
   border-radius: 22px;
@@ -614,7 +606,6 @@ a {
   font-size: 14px;
 }
 
-/* projects */
 .project-shell {
   margin-top: 56px;
   border-radius: 28px;
@@ -668,6 +659,33 @@ a {
   border: 1px solid;
   font-size: 12px;
   font-weight: 700;
+}
+
+.project-links-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.project-live-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 12px;
+  border-radius: 20px;
+  border: 1px solid;
+  font-size: 12px;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.15s;
+  white-space: nowrap;
+}
+
+.project-live-link:hover {
+  opacity: 0.85;
+  transform: translateY(-1px);
 }
 
 .project-nav {
@@ -739,7 +757,6 @@ a {
   transition: all 0.25s ease;
 }
 
-/* achievements */
 .achievement-grid {
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   margin-top: 56px;
@@ -752,7 +769,6 @@ a {
   text-align: center;
 }
 
-/* interests */
 .interest-grid {
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   margin-top: 56px;
@@ -786,7 +802,6 @@ a {
   line-height: 1.6;
 }
 
-/* contact */
 .contact-section {
   padding-bottom: 140px;
 }
@@ -873,7 +888,6 @@ a {
   font-size: 14px;
 }
 
-/* footer */
 .footer {
   border-top: 1px solid rgba(255,255,255,0.07);
   padding: 30px 4%;
@@ -901,24 +915,6 @@ a {
 }
 
 /* chat */
-.chat-fab {
-  position: fixed;
-  bottom: 28px;
-  right: 28px;
-  z-index: 9999;
-  width: 62px;
-  height: 62px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #00e5ff, #7c4dff);
-  border: none;
-  cursor: pointer;
-  box-shadow: 0 0 24px rgba(0,229,255,0.45), 0 4px 20px rgba(0,0,0,0.4);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 26px;
-}
-
 .chat-box {
   position: fixed;
   bottom: 104px;
@@ -1034,6 +1030,168 @@ a {
   font-size: 18px;
 }
 
+.chat-suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 8px 0 4px;
+}
+
+.chat-suggestion-chip {
+  background: rgba(0, 229, 255, 0.08);
+  color: #00e5ff;
+  border: 1px solid rgba(0, 229, 255, 0.25);
+  border-radius: 20px;
+  padding: 5px 11px;
+  font-size: 11.5px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+  text-align: left;
+  line-height: 1.4;
+}
+
+.chat-suggestion-chip:hover {
+  background: rgba(0, 229, 255, 0.18);
+  transform: translateY(-1px);
+}
+
+.chat-typing {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 18px;
+}
+
+.chat-typing span {
+  width: 6px;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  animation: typingBounce 1.2s infinite ease-in-out;
+}
+
+.chat-typing span:nth-child(1) { animation-delay: 0s; }
+.chat-typing span:nth-child(2) { animation-delay: 0.2s; }
+.chat-typing span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes typingBounce {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+  30% { transform: translateY(-5px); opacity: 1; }
+}
+
+.chat-bubble.assistant ul {
+  margin: 6px 0 6px 16px;
+  padding: 0;
+}
+
+.chat-bubble.assistant a {
+  color: #00e5ff;
+  text-decoration: underline;
+  word-break: break-all;
+}
+
+.chat-fab-wrap {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+}
+
+.chat-fab-pulse {
+  position: absolute;
+  border-radius: 50%;
+  border: 2px solid rgba(0, 229, 255, 0.55);
+  animation: fabSonar 2.4s ease-out infinite;
+  pointer-events: none;
+}
+
+.chat-fab-pulse.ring1 { width: 64px; height: 64px; animation-delay: 0s; }
+.chat-fab-pulse.ring2 { width: 64px; height: 64px; animation-delay: 0.6s; border-color: rgba(124, 77, 255, 0.45); }
+.chat-fab-pulse.ring3 { width: 64px; height: 64px; animation-delay: 1.2s; border-color: rgba(255, 64, 129, 0.35); }
+
+@keyframes fabSonar {
+  0% { transform: scale(1); opacity: 0.9; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+
+.chat-fab {
+  position: relative;
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  z-index: 2;
+  padding: 0;
+  background: transparent;
+  outline: none;
+}
+
+.chat-fab.fab-idle {
+  animation: fabFloat 3s ease-in-out infinite;
+}
+
+@keyframes fabFloat {
+  0%, 100% {
+    transform: translateY(0px);
+    filter: drop-shadow(0 0 10px rgba(0,229,255,0.6)) drop-shadow(0 0 22px rgba(124,77,255,0.4));
+  }
+  50% {
+    transform: translateY(-7px);
+    filter: drop-shadow(0 0 16px rgba(0,229,255,0.9)) drop-shadow(0 0 32px rgba(124,77,255,0.6));
+  }
+}
+
+.chat-fab.fab-open {
+  animation: fabOpenSpin 0.35s ease forwards;
+}
+
+@keyframes fabOpenSpin {
+  from { transform: rotate(0deg) scale(0.9); }
+  to { transform: rotate(180deg) scale(1); }
+}
+
+.chat-fab-spin-border {
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, #00e5ff, #7c4dff, #ff4081, #00e5ff);
+  animation: spinBorder 4s linear infinite;
+}
+
+@keyframes spinBorder {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.chat-fab-inner {
+  position: absolute;
+  inset: 4px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #00bcd4, #7c4dff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chat-fab-tooltip {
+  position: absolute;
+  right: 74px;
+  background: rgba(13, 17, 23, 0.95);
+  border: 1px solid rgba(0,229,255,0.2);
+  color: #fff;
+  padding: 7px 10px;
+  border-radius: 10px;
+  white-space: nowrap;
+  font-size: 12px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+}
+
 .blink-cursor {
   animation: blink 1s step-end infinite;
   border-right: 2px solid #00e5ff;
@@ -1124,7 +1282,7 @@ a {
     bottom: 90px;
   }
 
-  .chat-fab {
+  .chat-fab-wrap {
     right: 16px;
     bottom: 16px;
   }
@@ -1138,257 +1296,113 @@ a {
   .timeline-card {
     padding: 24px 18px;
   }
+
+  .chat-fab-tooltip {
+    display: none;
+  }
 }
 
+/* Global scrollbar */
+html {
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: #00e5ff #0d1117;
+}
 
-/* ─── ADD THESE TO YOUR index.css ─────────────────────────────────────────── */
+/* Chrome, Edge, Safari */
+::-webkit-scrollbar {
+  width: 10px;
+}
 
-/* Project live links row */
-.project-links-row {
+::-webkit-scrollbar-track {
+  background: #0d1117;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #00e5ff, #7c4dff);
+  border-radius: 999px;
+  border: 2px solid #0d1117;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #00c8e0, #6a3df0);
+}
+
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 14px;
   display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 12px;
+  flex-direction: column;
+  gap: 10px;
+  scrollbar-width: thin;
+  scrollbar-color: #00e5ff #111827;
 }
 
-.project-live-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  padding: 5px 12px;
-  border-radius: 20px;
-  border: 1px solid;
-  font-size: 12px;
-  font-weight: 500;
-  text-decoration: none;
-  cursor: pointer;
-  transition: opacity 0.2s, transform 0.15s;
-  white-space: nowrap;
+.chat-messages::-webkit-scrollbar {
+  width: 8px;
 }
 
-.project-live-link:hover {
-  opacity: 0.85;
-  transform: translateY(-1px);
+.chat-messages::-webkit-scrollbar-track {
+  background: #111827;
+  border-radius: 10px;
 }
 
-/* ─── Chat suggestion chips ─────────────────────────────────────────────────── */
-.chat-suggestions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  padding: 8px 0 4px;
+.chat-messages::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #00e5ff, #7c4dff);
+  border-radius: 999px;
 }
 
-.chat-suggestion-chip {
-  background: rgba(0, 229, 255, 0.08);
-  color: #00e5ff;
-  border: 1px solid rgba(0, 229, 255, 0.25);
-  border-radius: 20px;
-  padding: 5px 11px;
-  font-size: 11.5px;
-  cursor: pointer;
-  transition: background 0.2s, transform 0.15s;
-  text-align: left;
-  line-height: 1.4;
+.chat-messages::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #00c8e0, #6a3df0);
 }
 
-.chat-suggestion-chip:hover {
-  background: rgba(0, 229, 255, 0.18);
-  transform: translateY(-1px);
-}
-
-/* ─── Typing dots animation ─────────────────────────────────────────────────── */
-.chat-typing {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  height: 18px;
-}
-
-.chat-typing span {
-  width: 6px;
-  height: 6px;
-  background: rgba(255, 255, 255, 0.5);
-  border-radius: 50%;
-  animation: typingBounce 1.2s infinite ease-in-out;
-}
-
-.chat-typing span:nth-child(1) { animation-delay: 0s; }
-.chat-typing span:nth-child(2) { animation-delay: 0.2s; }
-.chat-typing span:nth-child(3) { animation-delay: 0.4s; }
-
-@keyframes typingBounce {
-  0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
-  30% { transform: translateY(-5px); opacity: 1; }
-}
-
-/* ─── Chat bubble markdown styles ───────────────────────────────────────────── */
-.chat-bubble.assistant ul {
-  margin: 6px 0 6px 16px;
-  padding: 0;
-}
-
-.chat-bubble.assistant a {
-  color: #00e5ff;
-  text-decoration: underline;
-  word-break: break-all;
-}
-
-
-/* ════════════════════════════════════════════════════════
-   ADD THESE TO YOUR index.css  (replace any existing .chat-fab styles)
-   ════════════════════════════════════════════════════════ */
-
-/* Wrapper holds button + rings + tooltip in one stacking context */
-.chat-fab-wrap {
+/* Scroll Buttons Wrapper */
+.scroll-buttons {
   position: fixed;
-  bottom: 28px;
-  right: 28px;
-  z-index: 9999;
+  right: 20px;
+  bottom: 110px; /* above chat button */
   display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 64px;
-  height: 64px;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 9999;
 }
 
-/* ── Sonar pulse rings ── */
-.chat-fab-pulse {
-  position: absolute;
-  border-radius: 50%;
-  border: 2px solid rgba(0, 229, 255, 0.55);
-  animation: fabSonar 2.4s ease-out infinite;
-  pointer-events: none;
-}
-.chat-fab-pulse.ring1 { width: 64px;  height: 64px;  animation-delay: 0s; }
-.chat-fab-pulse.ring2 { width: 64px;  height: 64px;  animation-delay: 0.6s; border-color: rgba(124, 77, 255, 0.45); }
-.chat-fab-pulse.ring3 { width: 64px;  height: 64px;  animation-delay: 1.2s; border-color: rgba(255, 64, 129, 0.35); }
-
-@keyframes fabSonar {
-  0%   { transform: scale(1);    opacity: 0.9; }
-  100% { transform: scale(2.4);  opacity: 0; }
-}
-
-/* ── Main FAB button ── */
-.chat-fab {
-  position: relative;
-  width: 62px;
-  height: 62px;
-  border-radius: 50%;
+/* Button Style */
+.scroll-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
   border: none;
   cursor: pointer;
-  z-index: 2;
-  padding: 0;
-  background: transparent;
-  outline: none;
+  font-size: 20px;
+  color: #000;
+  background: linear-gradient(135deg, #00e5ff, #7c4dff);
+  box-shadow: 0 0 12px rgba(0, 229, 255, 0.4);
+  transition: all 0.25s ease;
 }
 
-/* ── Idle state: float + glow ── */
-.chat-fab.fab-idle {
-  animation: fabFloat 3s ease-in-out infinite;
+/* Hover effect */
+.scroll-btn:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 0 18px rgba(0, 229, 255, 0.7);
 }
 
-@keyframes fabFloat {
-  0%, 100% { transform: translateY(0px);   filter: drop-shadow(0 0 10px rgba(0,229,255,0.6)) drop-shadow(0 0 22px rgba(124,77,255,0.4)); }
-  50%       { transform: translateY(-7px);  filter: drop-shadow(0 0 16px rgba(0,229,255,0.9)) drop-shadow(0 0 32px rgba(124,77,255,0.6)); }
+/* Optional different styles */
+.scroll-btn.down {
+  background: linear-gradient(135deg, #7c4dff, #ff4081);
+}
+.scroll-buttons {
+  animation: fadeInUp 0.3s ease;
 }
 
-/* ── Open state: rotate + solid ── */
-.chat-fab.fab-open {
-  animation: fabOpenSpin 0.35s ease forwards;
-}
-
-@keyframes fabOpenSpin {
-  from { transform: rotate(0deg) scale(0.9); }
-  to   { transform: rotate(180deg) scale(1); }
-}
-
-/* ── Spinning gradient border (pseudo-element) ── */
-.chat-fab-spin-border {
-  position: absolute;
-  inset: -3px;
-  border-radius: 50%;
-  background: conic-gradient(
-    #00e5ff 0deg,
-    #7c4dff 90deg,
-    #ff4081 180deg,
-    #00e5ff 270deg,
-    #7c4dff 360deg
-  );
-  animation: spinBorder 2s linear infinite;
-  z-index: 0;
-}
-
-@keyframes spinBorder {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
-}
-
-/* ── Inner solid circle (sits on top of the spinning ring) ── */
-.chat-fab-inner {
-  position: absolute;
-  inset: 3px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 35% 35%, #1e1e2e, #0d0d1a);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1;
-  transition: transform 0.2s ease;
-}
-
-.chat-fab:hover .chat-fab-inner {
-  transform: scale(1.06);
-}
-
-.chat-fab:active .chat-fab-inner {
-  transform: scale(0.94);
-}
-
-/* ── Tooltip label ── */
-.chat-fab-tooltip {
-  position: absolute;
-  right: 72px;
-  top: 50%;
-  transform: translateY(-50%);
-  background: rgba(13, 13, 26, 0.92);
-  color: #00e5ff;
-  font-size: 12px;
-  font-weight: 600;
-  padding: 5px 12px;
-  border-radius: 20px;
-  border: 1px solid rgba(0, 229, 255, 0.3);
-  white-space: nowrap;
-  pointer-events: none;
-  opacity: 0;
-  animation: tooltipAppear 0.4s ease 2.5s forwards;
-  letter-spacing: 0.3px;
-}
-
-@keyframes tooltipAppear {
-  from { opacity: 0; transform: translateY(-50%) translateX(8px); }
-  to   { opacity: 1; transform: translateY(-50%) translateX(0); }
-}
-
-/* ── Typing dots (if not already in your CSS) ── */
-.chat-typing {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  height: 18px;
-}
-.chat-typing span {
-  width: 6px;
-  height: 6px;
-  background: rgba(255,255,255,0.5);
-  border-radius: 50%;
-  animation: typingBounce 1.2s infinite ease-in-out;
-}
-.chat-typing span:nth-child(1) { animation-delay: 0s; }
-.chat-typing span:nth-child(2) { animation-delay: 0.2s; }
-.chat-typing span:nth-child(3) { animation-delay: 0.4s; }
-
-@keyframes typingBounce {
-  0%, 60%, 100% { transform: translateY(0);    opacity: 0.4; }
-  30%           { transform: translateY(-5px); opacity: 1; }
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

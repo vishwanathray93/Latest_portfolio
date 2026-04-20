@@ -2,30 +2,50 @@ import { useEffect, useRef, useState } from "react";
 
 function renderInline(text) {
   const parts = text.split(/(\*\*[^*]+\*\*|\[[^\]]+\]\([^)]+\))/g);
+
   return parts.map((part, i) => {
     if (part.startsWith("**") && part.endsWith("**")) {
       return <strong key={i}>{part.slice(2, -2)}</strong>;
     }
+
     const linkMatch = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
     if (linkMatch) {
       return (
-        <a key={i} href={linkMatch[2]} target="_blank" rel="noreferrer"
-          style={{ color: "#00e5ff", textDecoration: "underline" }}>
+        <a
+          key={i}
+          href={linkMatch[2]}
+          target="_blank"
+          rel="noreferrer"
+          style={{ color: "#00e5ff", textDecoration: "underline" }}
+        >
           {linkMatch[1]}
         </a>
       );
     }
+
     const urlParts = part.split(/(https?:\/\/[^\s]+)/g);
     if (urlParts.length > 1) {
       return urlParts.map((up, j) =>
         /^https?:\/\//.test(up) ? (
-          <a key={`${i}-${j}`} href={up} target="_blank" rel="noreferrer"
-            style={{ color: "#00e5ff", textDecoration: "underline", wordBreak: "break-all" }}>
+          <a
+            key={`${i}-${j}`}
+            href={up}
+            target="_blank"
+            rel="noreferrer"
+            style={{
+              color: "#00e5ff",
+              textDecoration: "underline",
+              wordBreak: "break-all",
+            }}
+          >
             {up}
           </a>
-        ) : up
+        ) : (
+          up
+        )
       );
     }
+
     return part;
   });
 }
@@ -53,17 +73,38 @@ function renderMarkdown(text) {
 
   lines.forEach((line) => {
     const t = line.trim();
+
     if (t.startsWith("## ")) {
       flushList();
       elements.push(
-        <div key={key++} style={{ fontSize: 12, fontWeight: 700, color: "#00e5ff", marginTop: 10, marginBottom: 3, letterSpacing: 0.4, textTransform: "uppercase" }}>
+        <div
+          key={key++}
+          style={{
+            fontSize: 12,
+            fontWeight: 700,
+            color: "#00e5ff",
+            marginTop: 10,
+            marginBottom: 3,
+            letterSpacing: 0.4,
+            textTransform: "uppercase",
+          }}
+        >
           {renderInline(t.slice(3))}
         </div>
       );
     } else if (t.startsWith("### ")) {
       flushList();
       elements.push(
-        <div key={key++} style={{ fontSize: 13, fontWeight: 600, color: "#a78bfa", marginTop: 8, marginBottom: 2 }}>
+        <div
+          key={key++}
+          style={{
+            fontSize: 13,
+            fontWeight: 600,
+            color: "#a78bfa",
+            marginTop: 8,
+            marginBottom: 2,
+          }}
+        >
           {renderInline(t.slice(4))}
         </div>
       );
@@ -81,28 +122,66 @@ function renderMarkdown(text) {
       );
     }
   });
+
   flushList();
   return elements;
 }
 
 const SUGGESTIONS = [
-  "What is your expected CTC?",
   "What is your current CTC?",
+  "What is your expected CTC?",
+  "Do you have WooCommerce experience?",
   "Show all project links",
+  "What is your GoDaddy hosting experience?",
   "What are your key skills?",
   "Tell me about your experience",
   "Shopify projects?",
-  "WordPress projects?",
+  "WordPress and WooCommerce projects?",
   "BigCommerce projects?",
   "Contact details?",
 ];
+
+function getFriendlyErrorMessage(error) {
+  const raw = String(error?.message || "").toLowerCase();
+
+  if (
+    raw.includes("high demand") ||
+    raw.includes("overloaded") ||
+    raw.includes("quota") ||
+    raw.includes("temporarily unavailable") ||
+    raw.includes("503")
+  ) {
+    return "I'm unable to respond right now due to a temporary service issue. Please try again in a moment.";
+  }
+
+  if (
+    raw.includes("api key not valid") ||
+    raw.includes("permission denied") ||
+    raw.includes("unauthorized") ||
+    raw.includes("401") ||
+    raw.includes("403")
+  ) {
+    return "The assistant is currently unavailable because of a configuration issue. Please try again later.";
+  }
+
+  if (
+    raw.includes("network") ||
+    raw.includes("failed to fetch") ||
+    raw.includes("load failed")
+  ) {
+    return "There seems to be a network issue right now. Please check the connection and try again.";
+  }
+
+  return "Something went wrong while generating the response. Please try again later.";
+}
 
 export default function ChatWidget({ resumeContext }) {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState([
     {
       role: "assistant",
-      content: "Hi! I'm Vishwanath's AI assistant. Ask me anything about his **skills**, **projects**, **experience**, or **CTC**! 👋",
+      content:
+        "Hi! I'm Vishwanath's AI assistant. Ask me about his **skills**, **projects**, **experience**, **WooCommerce work**, **hosting experience**, or **CTC**. 👋",
     },
   ]);
   const [input, setInput] = useState("");
@@ -127,18 +206,23 @@ export default function ChatWidget({ resumeContext }) {
     setShowSuggestions(false);
 
     try {
-  const apiMessages = updatedMessages.slice(1);
+      const apiMessages = updatedMessages.slice(1);
 
-  const geminiPrompt = `
+      const geminiPrompt = `
 ${resumeContext}
 
 IMPORTANT FORMATTING RULES:
-- Use ## for main headings, ### for sub-headings
-- Use **bold** for key values, technology names, numbers, and important terms
+- Use ## for main headings
+- Use ### for sub-headings
+- Use **bold** for important values, technologies, salary numbers, and company/platform names
 - Use - bullet lists for multiple items
-- When sharing project links, list them as plain URLs
-- For CTC questions, always clearly show both current and expected with bold labels
-- Keep responses structured, scannable, and professional
+- Keep replies friendly, human, and professional
+- For CTC questions, always show:
+  - **Current CTC:** 5.4 Lac per annum
+  - **Expected CTC:** 6 to 6.5 Lac per annum
+- For hosting questions, mention AWS EC2 and GoDaddy experience
+- For ecommerce questions, include WooCommerce where relevant
+- For project links, share direct links with short summaries
 - Only answer questions about Vishwanath Ray. If asked about anything else, politely redirect.
 
 Conversation:
@@ -147,55 +231,57 @@ ${apiMessages
   .join("\n")}
 `;
 
-  const response = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${import.meta.env.VITE_GEMINI_API_KEY}`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        contents: [
-          {
-            parts: [{ text: geminiPrompt }],
+      const response = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${import.meta.env.VITE_GEMINI_API_KEY}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
           },
-        ],
-      }),
+          body: JSON.stringify({
+            contents: [
+              {
+                parts: [{ text: geminiPrompt }],
+              },
+            ],
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        let errMessage = `API error ${response.status}`;
+
+        try {
+          const err = await response.json();
+          errMessage = err?.error?.message || errMessage;
+        } catch {
+          // ignore JSON parse failure
+        }
+
+        throw new Error(errMessage);
+      }
+
+      const data = await response.json();
+      const reply =
+        data?.candidates?.[0]?.content?.parts?.[0]?.text ||
+        "Sorry, I couldn't generate a response right now.";
+
+      setMessages((prev) => [...prev, { role: "assistant", content: reply }]);
+    } catch (error) {
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: "assistant",
+          content: getFriendlyErrorMessage(error),
+        },
+      ]);
+    } finally {
+      setLoading(false);
     }
-  );
-
-  if (!response.ok) {
-    const err = await response.json();
-    throw new Error(
-      err?.error?.message || `API error ${response.status}`
-    );
-  }
-
-  const data = await response.json();
-  const reply =
-    data?.candidates?.[0]?.content?.parts?.[0]?.text ||
-    "Sorry, I couldn't get a response.";
-
-  setMessages((prev) => [
-    ...prev,
-    { role: "assistant", content: reply },
-  ]);
-} catch (error) {
-  setMessages((prev) => [
-    ...prev,
-    {
-      role: "assistant",
-      content: `**Error:** ${error.message || "Request failed. Please try again."}`,
-    },
-  ]);
-} finally {
-  setLoading(false);
-}
   }
 
   return (
     <>
-      {/* ── Animated FAB Button ── */}
       <div className="chat-fab-wrap">
         {!open && (
           <>
@@ -214,7 +300,12 @@ ${apiMessages
           <span className="chat-fab-inner">
             {open ? (
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                <path d="M18 6L6 18M6 6l12 12" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
+                <path
+                  d="M18 6L6 18M6 6l12 12"
+                  stroke="white"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                />
               </svg>
             ) : (
               <svg width="28" height="28" viewBox="0 0 36 36" fill="none">
@@ -241,14 +332,13 @@ ${apiMessages
         {!open && <div className="chat-fab-tooltip">Ask AI ✨</div>}
       </div>
 
-      {/* ── Chat Box ── */}
       {open && (
         <div className="chat-box">
           <div className="chat-header">
             <div className="chat-bot-icon">🤖</div>
             <div>
               <div className="chat-title">Vishwanath's AI</div>
-              <div className="chat-subtitle">Ask about projects, skills & CTC</div>
+              <div className="chat-subtitle">Ask about projects, WooCommerce, hosting & CTC</div>
             </div>
           </div>
 
@@ -265,7 +355,9 @@ ${apiMessages
               <div className="chat-row assistant">
                 <div className="chat-bubble assistant">
                   <span className="chat-typing">
-                    <span /><span /><span />
+                    <span />
+                    <span />
+                    <span />
                   </span>
                 </div>
               </div>
@@ -288,8 +380,10 @@ ${apiMessages
             <input
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => { if (e.key === "Enter") sendMessage(); }}
-              placeholder="Ask about projects, CTC, skills..."
+              onKeyDown={(e) => {
+                if (e.key === "Enter") sendMessage();
+              }}
+              placeholder="Ask about projects, WooCommerce, CTC, hosting..."
               className="chat-input"
             />
             <button onClick={() => sendMessage()} disabled={loading} className="chat-send-btn">
