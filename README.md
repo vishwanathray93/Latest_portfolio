@@ -1,16 +1,115 @@
-# React + Vite
+# 🌐 Personal Portfolio Website
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Welcome to my personal developer portfolio website! 🚀  
+This portfolio showcases my skills, projects, experience, and technologies I work with as a Full Stack Web Developer and AI Enthusiast.
 
-Currently, two official plugins are available:
+🔗 Live Portfolio: https://latest-portfolio-five-beta.vercel.app/
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## 👨‍💻 About Me
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Hi there! 👋  
 
-## Expanding the ESLint configuration
+I'm a passionate Full Stack Web Developer and AI Enthusiast with 4+ years of experience building scalable, efficient, and user-friendly web applications. My expertise includes:
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- Laravel
+- PHP
+- JavaScript
+- Shopify
+- WordPress
+- MySQL
+- REST APIs
+- Node.js
+- LangChain
+- LLM & AI Integrations
+
+I enjoy developing custom eCommerce solutions, backend systems, AI-powered applications, live chat platforms, API integrations, and dynamic web experiences.
+
+---
+
+## ✨ Features
+
+- Modern Responsive UI
+- Developer Portfolio Showcase
+- Skills & Technology Stack
+- Project Showcase Section
+- Contact Information
+- Smooth User Experience
+- Mobile Friendly Design
+
+---
+
+## 🛠 Technologies Used
+
+- HTML5
+- CSS3
+- JavaScript
+- React.js
+- Next.js
+- Tailwind CSS
+- Vercel Deployment
+
+---
+
+## 📂 Project Setup
+
+Clone the repository:
+
+```bash
+git clone https://github.com/your-username/portfolio.git
+```
+
+Move to project folder:
+
+```bash
+cd portfolio
+```
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Run development server:
+
+```bash
+npm run dev
+```
+
+---
+
+## 🚀 Deployment
+
+This portfolio is deployed on:
+
+- Vercel
+- AWS (for other backend projects)
+
+---
+
+## 📸 Portfolio Preview
+
+![Portfolio Preview](https://latest-portfolio-five-beta.vercel.app/preview.png)
+
+---
+
+## 📬 Contact
+
+Feel free to connect with me for collaboration, freelance work, or development opportunities.
+
+- GitHub: https://github.com/vishwanathray93
+- Portfolio: https://latest-portfolio-five-beta.vercel.app/
+
+---
+
+## 📄 License
+
+This project is open-source and available under the MIT License.
+
+---
+
+## ⭐ Support
+
+If you like this portfolio, feel free to give this repository a ⭐ on GitHub!
